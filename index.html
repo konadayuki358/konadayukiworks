@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>作品置き場 | works</title>
+  <meta name="description" content="ChatGPTで初心者が作ってみる作品置き場" />
+  <style>
+    :root{
+      --bg: #0b0c10;
+      --panel: #111218;
+      --panel-2:#171925;
+      --text:#e8ecf1;
+      --muted:#a9b0bb;
+      --brand:#7cc4ff;
+      --chip:#23283a;
+      --ok:#3ddc97;
+      --ring: 0 0 0 3px rgb(124 196 255 / .25)
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg:#f7f8fb; --panel:#ffffff; --panel-2:#f3f5fb; --text:#12151a; --muted:#5d6673; --chip:#e9edf7;
+      }
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%;}
+    body{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", sans-serif;
+      background: radial-gradient(1200px 600px at 80% -10%, rgb(124 196 255 / .15), transparent 60%), var(--bg);
+      color:var(--text);
+      letter-spacing: .02em;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1100px; margin-inline:auto; padding: clamp(16px, 2.5vw, 24px)}
+    header{position:sticky; top:0; z-index:10; backdrop-filter: blur(6px); background: linear-gradient(to bottom, rgb(0 0 0 / .35), rgb(0 0 0 / 0)), transparent;}
+    .appbar{display:flex; gap:12px; align-items:center; justify-content:space-between; padding: 16px 0 8px;}
+    .title{display:flex; align-items:center; gap:12px}
+    .logo{width:36px; height:36px; border-radius:12px; background:linear-gradient(135deg, var(--brand), #9cffd9); display:grid; place-items:center; color:#001018; font-weight:700}
+    .title h1{font-size: clamp(20px, 3.2vw, 24px); margin:0}
+    .title small{display:block; color:var(--muted); font-size:12px; margin-top:2px}
+    .grid{margin-top: 16px; display:grid; gap:14px; grid-template-columns: repeat( auto-fill, minmax(260px, 1fr) );}
+    .card{background:linear-gradient(180deg, var(--panel-2), var(--panel)); border:1px solid rgb(255 255 255 / .06); border-radius:16px; overflow:hidden; display:flex; flex-direction:column; min-height: 220px; transition:transform .15s ease, box-shadow .15s ease;}
+    .card:hover{transform:translateY(-4px); box-shadow:0 4px 12px rgb(0 0 0 / .25)}
+    .thumb{aspect-ratio: 16/9; background: conic-gradient(from 180deg at 60% 40%, rgb(124 196 255 / .35), rgb(0 0 0 / 0) 50%), radial-gradient(60% 80% at 20% 20%, rgb(156 255 217 / .25), transparent 50%), var(--panel-2); display:grid; place-items:center}
+    .card .body{padding:14px; display:flex; gap:10px; flex-direction:column}
+    .name{font-weight:700; font-size: 16px; margin: 0}
+    .desc{color:var(--muted); font-size:13px; line-height:1.65}
+    footer{margin: 24px 0 12px; color:var(--muted); font-size:12px; text-align:center}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container appbar">
+      <div class="title">
+        <div class="logo" aria-hidden="true">W</div>
+        <div>
+          <h1>作品置き場 <small>works</small></h1>
+          <small>ChatGPTで初心者が作ってみる</small>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="grid">
+      <a href="https://konadayuki358.github.io/iwakudaki/game.html" target="_blank" rel="noopener noreferrer" class="card" aria-label="岩砕きを開く">
+        <div class="thumb"></div>
+        <div class="body">
+          <h2 class="name">岩砕き</h2>
+          <p class="desc">クリックで岩を砕くシンプル快感ゲーム。パーティクルやドロップ表現にこだわり中。</p>
+        </div>
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> konadayuki works — ChatGPTで初心者が作ってみる
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
