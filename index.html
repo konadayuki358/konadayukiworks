@@ -61,6 +61,16 @@
     .name{font-weight:700; font-size: 16px; margin: 0}
     .desc{color:var(--muted); font-size:13px; line-height:1.65}
     footer{margin: 24px 0 12px; color:var(--muted); font-size:12px; text-align:center}
+    /* スマホ幅でタイトル位置を少し右に調整 */
+@media (max-width: 600px) {
+  .appbar {
+    padding-left: 24px; /* ← タイトル全体を少し右に */
+  }
+  .title {
+    gap: 16px; /* ← マークと文字の間を少し広げる */
+  }
+}
+
   </style>
 </head>
 <body>
@@ -97,5 +107,6 @@
   </script>
 </body>
 </html>
+
 
 
