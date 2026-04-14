@@ -29,7 +29,6 @@
     html,body{margin:0;height:100%;}
     body{
       font-family: system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", sans-serif;
-      /* ⬇ 上部が暗く見えないように、トップ側に“明るいベール”を重ねる */
       background:
         linear-gradient(to bottom, rgb(255 255 255 / .55), rgb(255 255 255 / 0) 260px),
         radial-gradient(1200px 600px at 80% -10%, rgb(124 196 255 / .15), transparent 60%),
@@ -41,7 +40,6 @@
     .container{max-width:1100px; margin-inline:auto; padding: clamp(16px, 2.5vw, 24px)}
     header{
       position:sticky; top:0; z-index:10; backdrop-filter: blur(6px);
-      /* ⬇ ここも暗い影ではなく、淡い白いグラデーションに */
       background: linear-gradient(to bottom, rgb(255 255 255 / .65), rgb(255 255 255 / 0));
       border-bottom: 1px solid rgb(0 0 0 / .04);
     }
@@ -125,10 +123,38 @@
     /* スマホ幅でタイトル位置を少し右に調整 */
     @media (max-width: 600px) {
       .appbar {
-        padding-left: 24px; /* ← タイトル全体を少し右に */
+        padding-left: 24px;
       }
       .title {
-        gap: 16px; /* ← マークと文字の間を少し広げる */
+        gap: 16px;
+      }
+
+      .grid{
+        gap:12px;
+        margin-top: 12px;
+      }
+
+      .card{
+        min-height:auto;
+      }
+
+      .thumb{
+        aspect-ratio:auto;
+        height:118px;
+      }
+
+      .card .body{
+        padding:12px 14px 13px;
+        gap:8px;
+      }
+
+      .name{
+        font-size:15px;
+      }
+
+      .desc{
+        font-size:12.5px;
+        line-height:1.6;
       }
     }
 
@@ -173,6 +199,15 @@
         <div class="body">
           <h2 class="name">Time Marimo</h2>
           <p class="desc">時間経過とタップで少しずつ育つ、シンプルなブラウザまりも育成ゲーム</p>
+        </div>
+      </a>
+
+      <!-- 石ころ積む積む -->
+      <a href="https://konadayuki358.github.io/ishikorotsumutsumu/" target="_blank" rel="noopener noreferrer" class="card" aria-label="石ころ積む積むを開く">
+        <div class="thumb"></div>
+        <div class="body">
+          <h2 class="name">石ころ積む積む</h2>
+          <p class="desc">石を積んでハイスコア更新を目指す、シンプルなブラウザゲーム</p>
         </div>
       </a>
 
