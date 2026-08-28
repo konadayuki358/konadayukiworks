@@ -4,40 +4,44 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>作品置き場 | works</title>
-  <meta name="description" content="ChatGPTで初心者が作ってみる作品置き場" />
+  <meta name="description" content="ゆきちゃんの作品置き場。ChatGPTで初心者が作ってみる作品集。" />
+  <meta name="theme-color" content="#78bfff" />
+
   <style>
     :root{
-      /* ダーク基調（OSがダークのとき用） */
-      --bg: #0b0c10;
-      --panel: #111218;
-      --panel-2:#171925;
-      --text:#e8ecf1;
-      --muted:#a9b0bb;
+      --bg:#0b0d12;
+      --panel:#11141c;
+      --panel-2:#171b25;
+      --text:#edf2f7;
+      --muted:#a7b1bf;
       --brand:#7cc4ff;
-      --chip:#23283a;
-      --ok:#3ddc97;
-      --ring: 0 0 0 3px rgb(124 196 255 / .25)
+      --brand-2:#9dffd9;
+      --line:rgb(255 255 255 / .08);
+      --chip:#242b3a;
+      --shadow:0 10px 24px rgb(0 0 0 / .18);
+      --radius:22px;
     }
 
-    /* ライト基調（OSがライトのとき用） */
     @media (prefers-color-scheme: light){
       :root{
-        --bg:#f4f7fb;
+        --bg:#f3f7fb;
         --panel:#ffffff;
-        --panel-2:#f6f8fd;
-        --text:#12151a;
-        --muted:#5d6673;
-        --chip:#e9edf7;
+        --panel-2:#f7f9fd;
+        --text:#11161d;
+        --muted:#5c6776;
+        --line:rgb(12 18 28 / .08);
+        --chip:#eaf0f7;
+        --shadow:0 10px 24px rgb(18 30 52 / .08);
       }
     }
 
     *{
-      box-sizing:border-box
+      box-sizing:border-box;
     }
 
-    html,body{
+    html,
+    body{
       margin:0;
-      height:100%;
     }
 
     body{
@@ -51,20 +55,26 @@
         "Yu Gothic UI",
         sans-serif;
 
+      color:var(--text);
+
       background:
-        linear-gradient(
-          to bottom,
-          rgb(255 255 255 / .55),
-          rgb(255 255 255 / 0) 260px
+        radial-gradient(
+          1100px 520px at 85% -8%,
+          rgb(124 196 255 / .20),
+          transparent 60%
         ),
         radial-gradient(
-          1200px 600px at 80% -10%,
-          rgb(124 196 255 / .15),
-          transparent 60%
+          800px 420px at 5% 0%,
+          rgb(157 255 217 / .10),
+          transparent 55%
+        ),
+        linear-gradient(
+          to bottom,
+          rgb(255 255 255 / .35),
+          transparent 220px
         ),
         var(--bg);
 
-      color:var(--text);
       letter-spacing:.02em;
     }
 
@@ -74,195 +84,525 @@
     }
 
     .container{
-      max-width:1100px;
+      max-width:1160px;
       margin-inline:auto;
-      padding:clamp(16px, 2.5vw, 24px);
+      padding:16px;
     }
 
     header{
       position:sticky;
       top:0;
-      z-index:10;
-      backdrop-filter:blur(6px);
+      z-index:30;
+
+      backdrop-filter:blur(10px);
 
       background:
         linear-gradient(
           to bottom,
-          rgb(255 255 255 / .65),
-          rgb(255 255 255 / 0)
+          rgb(255 255 255 / .72),
+          rgb(255 255 255 / .35)
         );
 
-      border-bottom:1px solid rgb(0 0 0 / .04);
+      border-bottom:1px solid var(--line);
     }
 
-    .appbar{
+    .header-inner{
       display:flex;
-      gap:12px;
       align-items:center;
       justify-content:space-between;
-      padding:16px 0 8px;
+      gap:12px;
+
+      padding:14px 0 10px;
     }
 
-    .title{
+    .brand-wrap{
       display:flex;
       align-items:center;
       gap:12px;
+
+      min-width:0;
     }
 
     .logo{
-      width:36px;
-      height:36px;
-      border-radius:12px;
+      width:42px;
+      height:42px;
+
+      border-radius:14px;
+
+      display:grid;
+      place-items:center;
+
+      font-weight:800;
+
+      color:#001018;
 
       background:
         linear-gradient(
           135deg,
           var(--brand),
-          #9cffd9
+          var(--brand-2)
         );
 
-      display:grid;
-      place-items:center;
+      box-shadow:
+        0 6px 14px rgb(124 196 255 / .32);
 
-      color:#001018;
+      flex:0 0 auto;
+    }
+
+    .site-title{
+      min-width:0;
+    }
+
+    .site-title h1{
+      margin:0;
+
+      font-size:
+        clamp(19px, 3vw, 24px);
+
+      line-height:1.2;
+    }
+
+    .site-title .sub{
+      display:block;
+
+      margin-top:3px;
+
+      color:var(--muted);
+
+      font-size:12px;
+
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .filters{
+      position:sticky;
+      top:71px;
+      z-index:20;
+
+      margin-top:14px;
+
+      padding:10px 0 2px;
+
+      background:
+        linear-gradient(
+          to bottom,
+          rgb(255 255 255 / .55),
+          rgb(255 255 255 / 0)
+        );
+
+      backdrop-filter:blur(8px);
+    }
+
+    .filter-scroll{
+      display:flex;
+
+      gap:8px;
+
+      overflow:auto;
+
+      padding-bottom:6px;
+
+      scrollbar-width:none;
+    }
+
+    .filter-scroll::-webkit-scrollbar{
+      display:none;
+    }
+
+    .filter-btn{
+      border:1px solid var(--line);
+
+      background:var(--panel);
+
+      color:var(--muted);
+
+      border-radius:999px;
+
+      padding:10px 14px;
+
+      font:inherit;
+
+      font-size:13px;
       font-weight:700;
 
-      box-shadow:
-        0 2px 8px rgb(124 196 255 / .35);
+      cursor:pointer;
+
+      white-space:nowrap;
+
+      box-shadow:var(--shadow);
+
+      transition:.15s ease;
     }
 
-    .title h1{
-      font-size:clamp(20px, 3.2vw, 24px);
-      margin:0;
+    .filter-btn:hover{
+      transform:translateY(-1px);
     }
 
-    .title small{
-      display:block;
-      color:var(--muted);
-      font-size:12px;
-      margin-top:2px;
+    .filter-btn.active{
+      background:
+        linear-gradient(
+          135deg,
+          var(--brand),
+          var(--brand-2)
+        );
+
+      color:#001018;
+
+      border-color:transparent;
     }
 
     .grid{
-      margin-top:16px;
+      margin-top:14px;
+
       display:grid;
+
       gap:14px;
+
       grid-template-columns:
-        repeat(auto-fill, minmax(260px, 1fr));
+        repeat(
+          auto-fit,
+          minmax(210px, 1fr)
+        );
     }
 
     .card{
       background:
         linear-gradient(
           180deg,
-          var(--panel-2),
-          var(--panel)
-        );
+          rgb(255 255 255 / .03),
+          rgb(255 255 255 / 0)
+        ),
+        var(--panel);
 
-      border:1px solid rgb(0 0 0 / .06);
-      border-radius:16px;
-      overflow:hidden;
+      border:1px solid var(--line);
+
+      border-radius:var(--radius);
+
+      padding:14px;
+
+      box-shadow:var(--shadow);
 
       display:flex;
+
       flex-direction:column;
 
-      min-height:220px;
+      gap:12px;
+
+      min-height:228px;
 
       transition:
         transform .15s ease,
-        box-shadow .15s ease;
+        box-shadow .15s ease,
+        border-color .15s ease;
     }
 
     .card:hover{
       transform:translateY(-4px);
 
+      border-color:
+        rgb(124 196 255 / .35);
+
       box-shadow:
-        0 6px 16px rgb(0 0 0 / .12);
+        0 14px 28px rgb(0 0 0 / .18);
     }
 
-    .thumb{
-      aspect-ratio:16/9;
+    .card-top{
+      display:flex;
 
-      background:
-        radial-gradient(
-          140% 120% at 20% 0%,
-          rgb(124 196 255 / .35),
-          transparent 55%
-        ),
-        radial-gradient(
-          120% 120% at 85% 30%,
-          rgb(156 255 217 / .28),
-          transparent 60%
-        ),
-        var(--panel-2);
+      align-items:flex-start;
+
+      justify-content:space-between;
+
+      gap:12px;
+    }
+
+    .app-icon{
+      width:70px;
+      height:70px;
+
+      border-radius:22px;
 
       display:grid;
+
       place-items:center;
+
+      font-size:30px;
+
+      flex:0 0 auto;
+
+      color:#0a1420;
+
+      box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / .55),
+        0 8px 20px rgb(0 0 0 / .12);
+
+      border:
+        1px solid rgb(255 255 255 / .2);
     }
 
-    .card .body{
-      padding:14px;
+    .accent-blue{
+      background:
+        linear-gradient(
+          135deg,
+          #72c3ff,
+          #b2e2ff
+        );
+    }
+
+    .accent-green{
+      background:
+        linear-gradient(
+          135deg,
+          #7fe7b0,
+          #c7ffd8
+        );
+    }
+
+    .accent-purple{
+      background:
+        linear-gradient(
+          135deg,
+          #b28cff,
+          #eadcff
+        );
+    }
+
+    .accent-orange{
+      background:
+        linear-gradient(
+          135deg,
+          #ffb66e,
+          #ffe3ba
+        );
+    }
+
+    .accent-red{
+      background:
+        linear-gradient(
+          135deg,
+          #ff8f8f,
+          #ffd3d3
+        );
+    }
+
+    .accent-gold{
+      background:
+        linear-gradient(
+          135deg,
+          #ffd86f,
+          #fff0b2
+        );
+    }
+
+    .accent-cyan{
+      background:
+        linear-gradient(
+          135deg,
+          #7ce9ff,
+          #d4f9ff
+        );
+    }
+
+    .accent-gray{
+      background:
+        linear-gradient(
+          135deg,
+          #d0d8e2,
+          #f2f5f9
+        );
+    }
+
+    .badges{
       display:flex;
-      gap:10px;
-      flex-direction:column;
+
+      flex-wrap:wrap;
+
+      justify-content:flex-end;
+
+      gap:6px;
+    }
+
+    .badge{
+      display:inline-flex;
+
+      align-items:center;
+
+      min-height:26px;
+
+      padding:6px 10px;
+
+      border-radius:999px;
+
+      font-size:11px;
+
+      font-weight:700;
+
+      line-height:1;
+
+      background:var(--chip);
+
+      color:var(--muted);
+    }
+
+    .badge.main{
+      background:
+        rgb(124 196 255 / .16);
+
+      color:var(--text);
     }
 
     .name{
-      font-weight:700;
-      font-size:16px;
       margin:0;
+
+      font-size:16px;
+
+      line-height:1.35;
     }
 
     .desc{
+      margin:0;
+
       color:var(--muted);
+
       font-size:13px;
+
       line-height:1.65;
+
+      display:-webkit-box;
+
+      -webkit-box-orient:vertical;
+
+      -webkit-line-clamp:3;
+
+      overflow:hidden;
+    }
+
+    .card-foot{
+      margin-top:auto;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:space-between;
+
+      gap:10px;
+
+      font-size:12px;
+
+      color:var(--muted);
+    }
+
+    .open{
+      display:inline-flex;
+
+      align-items:center;
+
+      gap:7px;
+
+      font-weight:700;
+
+      color:var(--text);
+    }
+
+    .hidden{
+      display:none !important;
     }
 
     footer{
-      margin:24px 0 12px;
+      margin:26px 0 12px;
+
       color:var(--muted);
+
       font-size:12px;
+
       text-align:center;
     }
 
-    /* スマホ幅でタイトル位置を少し右に調整 */
-    @media (max-width:600px){
+    @media (max-width:740px){
 
-      .appbar{
-        padding-left:24px;
+      .container{
+        padding:14px;
       }
 
-      .title{
-        gap:16px;
+      .filters{
+        top:67px;
       }
 
       .grid{
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(0, 1fr)
+          );
+
         gap:12px;
-        margin-top:12px;
       }
 
       .card{
-        min-height:auto;
+        min-height:202px;
+
+        padding:12px;
+
+        gap:10px;
+
+        border-radius:20px;
       }
 
-      .thumb{
-        aspect-ratio:auto;
-        height:118px;
-      }
+      .app-icon{
+        width:58px;
+        height:58px;
 
-      .card .body{
-        padding:12px 14px 13px;
-        gap:8px;
+        border-radius:18px;
+
+        font-size:26px;
       }
 
       .name{
-        font-size:15px;
+        font-size:14px;
       }
 
       .desc{
-        font-size:12.5px;
-        line-height:1.6;
+        font-size:12px;
+
+        line-height:1.55;
+
+        -webkit-line-clamp:3;
+      }
+
+      .badge{
+        font-size:10px;
+
+        padding:6px 8px;
+      }
+
+      .card-foot{
+        font-size:11px;
+      }
+    }
+
+    @media (max-width:420px){
+
+      .site-title .sub{
+        white-space:normal;
+      }
+
+      .grid{
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(0, 1fr)
+          );
+      }
+
+      .card{
+        min-height:192px;
+      }
+
+      .desc{
+        -webkit-line-clamp:2;
       }
     }
 
@@ -272,58 +612,174 @@
 <body>
 
   <header>
-    <div class="container appbar">
 
-      <div class="title">
+    <div class="container header-inner">
 
-        <div class="logo" aria-hidden="true">
+      <div class="brand-wrap">
+
+        <div
+          class="logo"
+          aria-hidden="true"
+        >
           W
         </div>
 
-        <div>
+        <div class="site-title">
+
           <h1>
             ゆきちゃんの作品置き場
-            <small>konadayuki works</small>
           </h1>
 
-          <small>
-            ChatGPTで初心者がゲームを作ってみる
-          </small>
+          <span class="sub">
+            konadayuki works / ChatGPTで初心者がゲームを作ってみる
+          </span>
+
         </div>
 
       </div>
 
     </div>
+
   </header>
 
 
   <main class="container">
 
-    <section class="grid">
+    <section
+      class="filters"
+      aria-label="カテゴリで絞り込み"
+    >
+
+      <div class="filter-scroll">
+
+        <button
+          class="filter-btn active"
+          data-filter="all"
+          type="button"
+        >
+          全部
+        </button>
+
+        <button
+          class="filter-btn"
+          data-filter="配布"
+          type="button"
+        >
+          配布
+        </button>
+
+        <button
+          class="filter-btn"
+          data-filter="クリック"
+          type="button"
+        >
+          クリック
+        </button>
+
+        <button
+          class="filter-btn"
+          data-filter="RPG"
+          type="button"
+        >
+          RPG
+        </button>
+
+        <button
+          class="filter-btn"
+          data-filter="育成"
+          type="button"
+        >
+          育成
+        </button>
+
+        <button
+          class="filter-btn"
+          data-filter="放置"
+          type="button"
+        >
+          放置
+        </button>
+
+        <button
+          class="filter-btn"
+          data-filter="パズル"
+          type="button"
+        >
+          パズル
+        </button>
+
+        <button
+          class="filter-btn"
+          data-filter="ツール"
+          type="button"
+        >
+          ツール
+        </button>
+
+      </div>
+
+    </section>
 
 
-      <!-- マイクラデータパック配布ページ -->
+    <section
+      class="grid"
+      id="worksGrid"
+    >
+
+
+      <!-- マイクラデータパック -->
       <a
         href="https://konadayuki358.github.io/minecraft-datapacks/"
         target="_blank"
         rel="noopener noreferrer"
         class="card"
+        data-category="配布"
         aria-label="マイクラデータパック配布ページを開く"
       >
 
-        <div class="thumb"></div>
+        <div class="card-top">
 
-        <div class="body">
+          <div
+            class="app-icon accent-green"
+            aria-hidden="true"
+          >
+            ⛏️
+          </div>
 
-          <h2 class="name">
-            マイクラデータパック配布ページ
-          </h2>
+          <div class="badges">
 
-          <p class="desc">
-            Minecraft Java Edition用のデータパックを配布しているページ
-          </p>
+            <span class="badge main">
+              配布
+            </span>
+
+            <span class="badge">
+              マイクラ
+            </span>
+
+          </div>
 
         </div>
+
+        <h2 class="name">
+          マイクラデータパック配布ページ
+        </h2>
+
+        <p class="desc">
+          Minecraft Java Edition用のデータパックを配布しているページ。
+        </p>
+
+        <div class="card-foot">
+
+          <span>
+            データ配布
+          </span>
+
+          <span class="open">
+            開く ↗
+          </span>
+
+        </div>
+
       </a>
 
 
@@ -333,22 +789,53 @@
         target="_blank"
         rel="noopener noreferrer"
         class="card"
+        data-category="クリック"
         aria-label="岩砕きを開く"
       >
 
-        <div class="thumb"></div>
+        <div class="card-top">
 
-        <div class="body">
+          <div
+            class="app-icon accent-orange"
+            aria-hidden="true"
+          >
+            🪨
+          </div>
 
-          <h2 class="name">
-            岩砕き
-          </h2>
+          <div class="badges">
 
-          <p class="desc">
-            クリックで岩を砕くシンプル快感ゲーム。パーティクルやドロップ表現にこだわり中。
-          </p>
+            <span class="badge main">
+              クリック
+            </span>
+
+            <span class="badge">
+              爽快
+            </span>
+
+          </div>
 
         </div>
+
+        <h2 class="name">
+          岩砕き
+        </h2>
+
+        <p class="desc">
+          クリックで岩を砕くシンプル快感ゲーム。テンポよく遊べる作品。
+        </p>
+
+        <div class="card-foot">
+
+          <span>
+            すぐ遊べる
+          </span>
+
+          <span class="open">
+            開く ↗
+          </span>
+
+        </div>
+
       </a>
 
 
@@ -358,22 +845,53 @@
         target="_blank"
         rel="noopener noreferrer"
         class="card"
+        data-category="RPG"
         aria-label="Void Punch RPGを開く"
       >
 
-        <div class="thumb"></div>
+        <div class="card-top">
 
-        <div class="body">
+          <div
+            class="app-icon accent-purple"
+            aria-hidden="true"
+          >
+            👊
+          </div>
 
-          <h2 class="name">
-            Void Punch RPG
-          </h2>
+          <div class="badges">
 
-          <p class="desc">
-            圧倒的な強さで虚無を体験するテキストRPG。最強の主人公になれる。
-          </p>
+            <span class="badge main">
+              RPG
+            </span>
+
+            <span class="badge">
+              テキスト
+            </span>
+
+          </div>
 
         </div>
+
+        <h2 class="name">
+          Void Punch RPG
+        </h2>
+
+        <p class="desc">
+          圧倒的な強さで虚無を体験するテキストRPG。最強主人公で突き進める。
+        </p>
+
+        <div class="card-foot">
+
+          <span>
+            虚無RPG
+          </span>
+
+          <span class="open">
+            開く ↗
+          </span>
+
+        </div>
+
       </a>
 
 
@@ -383,22 +901,53 @@
         target="_blank"
         rel="noopener noreferrer"
         class="card"
+        data-category="育成"
         aria-label="Time Marimoを開く"
       >
 
-        <div class="thumb"></div>
+        <div class="card-top">
 
-        <div class="body">
+          <div
+            class="app-icon accent-cyan"
+            aria-hidden="true"
+          >
+            🟢
+          </div>
 
-          <h2 class="name">
-            Time Marimo
-          </h2>
+          <div class="badges">
 
-          <p class="desc">
-            時間経過とタップで少しずつ育つ、シンプルなブラウザまりも育成ゲーム
-          </p>
+            <span class="badge main">
+              育成
+            </span>
+
+            <span class="badge">
+              まりも
+            </span>
+
+          </div>
 
         </div>
+
+        <h2 class="name">
+          Time Marimo
+        </h2>
+
+        <p class="desc">
+          時間経過とタップで少しずつ育つ、シンプルなブラウザまりも育成ゲーム。
+        </p>
+
+        <div class="card-foot">
+
+          <span>
+            のんびり育成
+          </span>
+
+          <span class="open">
+            開く ↗
+          </span>
+
+        </div>
+
       </a>
 
 
@@ -408,22 +957,53 @@
         target="_blank"
         rel="noopener noreferrer"
         class="card"
+        data-category="クリック パズル"
         aria-label="石ころ積む積むを開く"
       >
 
-        <div class="thumb"></div>
+        <div class="card-top">
 
-        <div class="body">
+          <div
+            class="app-icon accent-gold"
+            aria-hidden="true"
+          >
+            🧱
+          </div>
 
-          <h2 class="name">
-            石ころ積む積む
-          </h2>
+          <div class="badges">
 
-          <p class="desc">
-            石を積んでハイスコア更新を目指す、シンプルなブラウザゲーム
-          </p>
+            <span class="badge main">
+              パズル
+            </span>
+
+            <span class="badge">
+              積む
+            </span>
+
+          </div>
 
         </div>
+
+        <h2 class="name">
+          石ころ積む積む
+        </h2>
+
+        <p class="desc">
+          石を積んでハイスコア更新を目指す、シンプルなブラウザゲーム。
+        </p>
+
+        <div class="card-foot">
+
+          <span>
+            ハイスコア
+          </span>
+
+          <span class="open">
+            開く ↗
+          </span>
+
+        </div>
+
       </a>
 
 
@@ -433,22 +1013,53 @@
         target="_blank"
         rel="noopener noreferrer"
         class="card"
+        data-category="クリック"
         aria-label="足し算クリッカーを開く"
       >
 
-        <div class="thumb"></div>
+        <div class="card-top">
 
-        <div class="body">
+          <div
+            class="app-icon accent-red"
+            aria-hidden="true"
+          >
+            ➕
+          </div>
 
-          <h2 class="name">
-            足し算クリッカー
-          </h2>
+          <div class="badges">
 
-          <p class="desc">
-            足し算をして正しい答えを四択で選ぶ、テンポよく遊べるブラウザゲーム
-          </p>
+            <span class="badge main">
+              クリック
+            </span>
+
+            <span class="badge">
+              計算
+            </span>
+
+          </div>
 
         </div>
+
+        <h2 class="name">
+          足し算クリッカー
+        </h2>
+
+        <p class="desc">
+          足し算をして正しい答えを四択で選ぶ、テンポよく遊べるブラウザゲーム。
+        </p>
+
+        <div class="card-foot">
+
+          <span>
+            脳トレ
+          </span>
+
+          <span class="open">
+            開く ↗
+          </span>
+
+        </div>
+
       </a>
 
 
@@ -458,22 +1069,53 @@
         target="_blank"
         rel="noopener noreferrer"
         class="card"
+        data-category="ツール 放置"
         aria-label="放置時計を開く"
       >
 
-        <div class="thumb"></div>
+        <div class="card-top">
 
-        <div class="body">
+          <div
+            class="app-icon accent-blue"
+            aria-hidden="true"
+          >
+            ⏰
+          </div>
 
-          <h2 class="name">
-            放置時計
-          </h2>
+          <div class="badges">
 
-          <p class="desc">
-            画面を開いている間だけ、今回・今日・累計の放置時間を記録するシンプルなブラウザツール
-          </p>
+            <span class="badge main">
+              ツール
+            </span>
+
+            <span class="badge">
+              放置
+            </span>
+
+          </div>
 
         </div>
+
+        <h2 class="name">
+          放置時計
+        </h2>
+
+        <p class="desc">
+          画面を開いている間だけ、今回・今日・累計の放置時間を記録するブラウザツール。
+        </p>
+
+        <div class="card-foot">
+
+          <span>
+            時間記録
+          </span>
+
+          <span class="open">
+            開く ↗
+          </span>
+
+        </div>
+
       </a>
 
 
@@ -483,22 +1125,53 @@
         target="_blank"
         rel="noopener noreferrer"
         class="card"
+        data-category="放置"
         aria-label="放置鉱石時計を開く"
       >
 
-        <div class="thumb"></div>
+        <div class="card-top">
 
-        <div class="body">
+          <div
+            class="app-icon accent-gray"
+            aria-hidden="true"
+          >
+            ⛏️
+          </div>
 
-          <h2 class="name">
-            放置鉱石時計
-          </h2>
+          <div class="badges">
 
-          <p class="desc">
-            画面を開いている間だけ、鉱夫が自動で鉱石を掘ってくれるシンプルな放置ブラウザゲーム
-          </p>
+            <span class="badge main">
+              放置
+            </span>
+
+            <span class="badge">
+              鉱石
+            </span>
+
+          </div>
 
         </div>
+
+        <h2 class="name">
+          放置鉱石時計
+        </h2>
+
+        <p class="desc">
+          画面を開いている間だけ、鉱夫が自動で鉱石を掘ってくれるシンプルな放置ゲーム。
+        </p>
+
+        <div class="card-foot">
+
+          <span>
+            自動で掘る
+          </span>
+
+          <span class="open">
+            開く ↗
+          </span>
+
+        </div>
+
       </a>
 
 
@@ -508,22 +1181,53 @@
         target="_blank"
         rel="noopener noreferrer"
         class="card"
+        data-category="放置 RPG"
         aria-label="地下ログ。を開く"
       >
 
-        <div class="thumb"></div>
+        <div class="card-top">
 
-        <div class="body">
+          <div
+            class="app-icon accent-purple"
+            aria-hidden="true"
+          >
+            🕳️
+          </div>
 
-          <h2 class="name">
-            地下ログ。
-          </h2>
+          <div class="badges">
 
-          <p class="desc">
-            放置した時間だけ戦闘力を高め、どこまで地下深く進めるかを記録していくシンプルなブラウザ放置ゲーム
-          </p>
+            <span class="badge main">
+              放置
+            </span>
+
+            <span class="badge">
+              地下
+            </span>
+
+          </div>
 
         </div>
+
+        <h2 class="name">
+          地下ログ。
+        </h2>
+
+        <p class="desc">
+          放置した時間だけ戦闘力を高め、どこまで地下深く進めるかを記録していく放置ゲーム。
+        </p>
+
+        <div class="card-foot">
+
+          <span>
+            地下へ進む
+          </span>
+
+          <span class="open">
+            開く ↗
+          </span>
+
+        </div>
+
       </a>
 
 
@@ -533,22 +1237,53 @@
         target="_blank"
         rel="noopener noreferrer"
         class="card"
+        data-category="パズル"
         aria-label="ゆるっと2048を開く"
       >
 
-        <div class="thumb"></div>
+        <div class="card-top">
 
-        <div class="body">
+          <div
+            class="app-icon accent-gold"
+            aria-hidden="true"
+          >
+            🔢
+          </div>
 
-          <h2 class="name">
-            ゆるっと2048
-          </h2>
+          <div class="badges">
 
-          <p class="desc">
-            スマホやパソコンのブラウザで、のんびり遊べる2048風パズルゲーム
-          </p>
+            <span class="badge main">
+              パズル
+            </span>
+
+            <span class="badge">
+              2048
+            </span>
+
+          </div>
 
         </div>
+
+        <h2 class="name">
+          ゆるっと2048
+        </h2>
+
+        <p class="desc">
+          スマホやパソコンのブラウザで、のんびり遊べる2048風パズルゲーム。
+        </p>
+
+        <div class="card-foot">
+
+          <span>
+            定番パズル
+          </span>
+
+          <span class="open">
+            開く ↗
+          </span>
+
+        </div>
+
       </a>
 
 
@@ -558,13 +1293,85 @@
 
 
   <footer>
-    © <span id="year"></span> konadayuki works — ChatGPTで初心者がゲームを作ってみる
+
+    ©
+    <span id="year"></span>
+    konadayuki works
+    — ChatGPTで初心者がゲームを作ってみる
+
   </footer>
 
 
   <script>
-    document.getElementById('year').textContent =
+
+    document
+      .getElementById('year')
+      .textContent =
       new Date().getFullYear();
+
+
+    const buttons =
+      document.querySelectorAll(
+        '.filter-btn'
+      );
+
+    const cards =
+      document.querySelectorAll(
+        '.card'
+      );
+
+
+    buttons.forEach(btn => {
+
+      btn.addEventListener(
+        'click',
+        () => {
+
+          buttons.forEach(b => {
+            b.classList.remove(
+              'active'
+            );
+          });
+
+
+          btn.classList.add(
+            'active'
+          );
+
+
+          const filter =
+            btn.dataset.filter;
+
+
+          cards.forEach(card => {
+
+            const categories =
+              (
+                card.dataset.category ||
+                ''
+              )
+              .split(/\s+/);
+
+
+            const show =
+              filter === 'all' ||
+              categories.includes(
+                filter
+              );
+
+
+            card.classList.toggle(
+              'hidden',
+              !show
+            );
+
+          });
+
+        }
+      );
+
+    });
+
   </script>
 
 </body>
